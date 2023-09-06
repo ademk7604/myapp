@@ -58,9 +58,6 @@ public class Post {
 	 * bulunabilir. Bu alanların JSON çıktısında görünmemesi için @JsonIgnore
 	 * kullanılabilir.
 	 * 
-	 * İçsel Kullanım İçin Alanlar: Sınıfın içsel mantığını veya uygulama tarafından
-	 * kullanılmayan alanları JSON çıktısında göstermek istemiyorsanız @JsonIgnore
-	 * kullanabilirsiniz.
 	 * 
 	 * Döngüsel Bağlantıları Önleme: İki sınıf arasında döngüsel bir bağlantı
 	 * (örneğin, ebeveyn-çocuk ilişkisi) varsa, bu döngüsel bağlantıyı çözmek ve
