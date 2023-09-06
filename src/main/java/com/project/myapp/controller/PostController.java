@@ -31,6 +31,7 @@ public class PostController {
 	@GetMapping
 	public List<Post> getAllPosts(@RequestParam Optional<Long> userId) {
 		return postService.getAllPosts(userId);
+		
 	}
 
 	@GetMapping("{postId}")
