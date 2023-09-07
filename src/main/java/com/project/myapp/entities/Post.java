@@ -54,9 +54,6 @@ public class Post {
 	 * @JsonIgnore anotasyonunu kullanmanın bazı yaygın senaryoları şunlar olabilir:
 	 * 
 	 * Hassas Verilerin Gizlenmesi: Bir sınıfın içinde hassas bilgileri temsil eden
-	 * alanlar (örneğin, kullanıcı şifreleri veya kişisel kimlik bilgileri)
-	 * bulunabilir. Bu alanların JSON çıktısında görünmemesi için @JsonIgnore
-	 * kullanılabilir.
 	 * 
 	 * 
 	 * Döngüsel Bağlantıları Önleme: İki sınıf arasında döngüsel bir bağlantı
