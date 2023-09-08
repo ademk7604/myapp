@@ -27,11 +27,11 @@ public class PostController {
 	public PostController(final PostService postService) {
 		this.postService = postService;
 	}
-	
+
 	@GetMapping
 	public List<Post> getAllPosts(@RequestParam Optional<Long> userId) {
 		return postService.getAllPosts(userId);
-		
+
 	}
 
 	@GetMapping("{postId}")
@@ -43,17 +43,16 @@ public class PostController {
 	public Post createOnePost(@RequestBody PostCreateRequest newPostRequest) {
 		return postService.createOnePost(newPostRequest);
 	}
-	
+
 	@PutMapping("/{postId}")
 	public Post updateOnePost(@PathVariable Long postId, @RequestBody PostUpdateRequest updatePost) {
 		return postService.updateOnePostById(postId, updatePost);
-	} 
-	
+	}
+
 	@DeleteMapping("/{postId}")
 	public void deleteOnePost(@PathVariable Long postId) {
 		postService.deleteOnePostById(postId);
-		
+
 	}
-	
 
 }

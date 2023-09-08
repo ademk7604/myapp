@@ -7,14 +7,15 @@ import org.springframework.stereotype.Service;
 
 import com.project.myapp.entities.User;
 import com.project.myapp.repository.UserRepository;
+
 @Service
 public class UserService {
-	
+
 	private UserRepository userRepository;
-	
+
 	public UserService(final UserRepository userRepository) {
 		this.userRepository = userRepository;
-		
+
 	}
 
 	public List<User> getAllUsers() {
@@ -25,7 +26,7 @@ public class UserService {
 		return userRepository.save(newUser);
 	}
 
-	public User getOneUser(Long userId) {
+	public User getOneUserById(Long userId) {
 		return userRepository.findById(userId).orElse(null);
 	}
 
@@ -37,15 +38,13 @@ public class UserService {
 			foundUser.setPassword(newUser.getPassword());
 			userRepository.save(foundUser);
 			return foundUser;
-			
-		}else 
+
+		} else
 			return null;
 	}
 
 	public void getDeleteOneUser(Long userId) {
-		 userRepository.deleteById(userId);
+		userRepository.deleteById(userId);
 	}
-
-	
 
 }

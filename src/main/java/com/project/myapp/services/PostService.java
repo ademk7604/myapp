@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import com.project.myapp.entities.Post;
 import com.project.myapp.entities.User;
@@ -38,8 +37,8 @@ public class PostService {
 	}
 
 	public Post createOnePost(PostCreateRequest newPostRequest) {
-		User user = userService.getOneUser(newPostRequest.getUserId());
-		if(user == null)
+		User user = userService.getOneUserById(newPostRequest.getUserId());
+		if (user == null)
 			return null;
 		Post toSave = new Post();
 		toSave.setId(newPostRequest.getId());
@@ -47,18 +46,18 @@ public class PostService {
 		toSave.setTitle(newPostRequest.getTitle());
 		toSave.setUser(user);
 		return postRepository.save(toSave);
-		
+
 	}
 
 	public Post updateOnePostById(Long postId, PostUpdateRequest updatePost) {
 		Optional<Post> post = postRepository.findById(postId);
-		if(post.isPresent()) {
+		if (post.isPresent()) {
 			Post toUpdate = post.get();
 			toUpdate.setTitle(updatePost.getTitle());
 			toUpdate.setText(updatePost.getText());
 			postRepository.save(toUpdate);
 			return toUpdate;
-			
+
 		}
 		return null;
 	}
@@ -66,8 +65,5 @@ public class PostService {
 	public void deleteOnePostById(Long postId) {
 		postRepository.deleteById(postId);
 	}
-
-
-
 
 }
