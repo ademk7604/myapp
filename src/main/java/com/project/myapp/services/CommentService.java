@@ -10,6 +10,7 @@ import com.project.myapp.entities.Post;
 import com.project.myapp.entities.User;
 import com.project.myapp.repository.CommentRepository;
 import com.project.myapp.requests.CommentCreateRequest;
+import com.project.myapp.requests.CommentUpdateRequest;
 
 @Service
 public class CommentService {
@@ -56,6 +57,21 @@ public class CommentService {
 		} else
 			return null;
 
+	}
+
+	public Comment createOneCommentById(Long commentId, CommentUpdateRequest request) {
+		
+		Optional<Comment> comment = commentRepository.findById(commentId);
+		if(comment.isPresent()) {
+			Comment commentToUpdate = comment.get();
+			commentToUpdate.setText(request.getText());
+			return commentRepository.save(commentToUpdate);
+		}else 
+			return null;
+	}
+
+	public void deleteCommentById(Long commentId) {
+		commentRepository.deleteById(commentId);
 	}
 
 }
