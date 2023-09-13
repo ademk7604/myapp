@@ -43,11 +43,12 @@ public class CommentController {
 	public Comment createOneComment(@RequestBody CommentCreateRequest newComment) {
 		return commentService.createOneComment(newComment);
 	}
-	
+
 	@PutMapping("/{commentId}")
 	public Comment updateOneComment(@PathVariable Long commentId, @RequestBody CommentUpdateRequest request) {
 		return commentService.createOneCommentById(commentId, request);
 	}
+
 	@DeleteMapping("/{commentId}")
 	public void deleteOneComment(@PathVariable Long commentId) {
 		commentService.deleteCommentById(commentId);

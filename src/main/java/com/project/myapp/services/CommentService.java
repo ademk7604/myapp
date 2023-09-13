@@ -60,13 +60,13 @@ public class CommentService {
 	}
 
 	public Comment createOneCommentById(Long commentId, CommentUpdateRequest request) {
-		
+
 		Optional<Comment> comment = commentRepository.findById(commentId);
-		if(comment.isPresent()) {
+		if (comment.isPresent()) {
 			Comment commentToUpdate = comment.get();
 			commentToUpdate.setText(request.getText());
 			return commentRepository.save(commentToUpdate);
-		}else 
+		} else
 			return null;
 	}
 

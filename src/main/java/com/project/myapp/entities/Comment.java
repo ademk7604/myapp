@@ -21,30 +21,30 @@ import lombok.Data;
 @Data
 public class Comment {
 
-	
 	@Id
 	Long id;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "post_id", nullable = false)
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	@JsonIgnore
 	Post post;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id", nullable = false)
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	@JsonIgnore
 	User user;
-	
+
 	@Lob
 	@Column(columnDefinition = "text")
 	String text;
 	/*
-	 *@Lob anotasyonunu kullanarak, bir sütunu "Large Object" olarak işaretlersiniz 
-	 *ve bu sütunun veritabanında büyük verileri depolamak için uygun bir şekilde işlenmesini sağlarsınız. 
-	 *"text" tipini kullanarak, bu sütunun bir metin veri türüne sahip olmasını belirtiyorsunuz. 
-	 *"text" tipi genellikle uzun metin veya büyük metin verileri için kullanılır
-	 * ve metin verilerini depolamak için uygun bir veri türüdür.
+	 * @Lob anotasyonunu kullanarak, bir sütunu "Large Object" olarak işaretlersiniz
+	 * ve bu sütunun veritabanında büyük verileri depolamak için uygun bir şekilde
+	 * işlenmesini sağlarsınız. "text" tipini kullanarak, bu sütunun bir metin veri
+	 * türüne sahip olmasını belirtiyorsunuz. "text" tipi genellikle uzun metin veya
+	 * büyük metin verileri için kullanılır ve metin verilerini depolamak için uygun
+	 * bir veri türüdür.
 	 */
 }
