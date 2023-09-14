@@ -1,9 +1,14 @@
 package com.project.myapp.controllers;
 
 import static org.hamcrest.Matchers.hasSize;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -22,6 +27,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.myapp.entities.Comment;
 import com.project.myapp.requests.CommentCreateRequest;
+import com.project.myapp.requests.CommentUpdateRequest;
 import com.project.myapp.services.CommentService;
 
 @SpringBootTest
@@ -75,6 +81,34 @@ public class CommentControllerTest {
 		mockMvc.perform(post("/comments").contentType(MediaType.APPLICATION_JSON).content(asJsonString(newComment)))
 				.andExpect(status().isOk()).andExpect(jsonPath("$.id").value(1))
 				.andExpect(jsonPath("$.text").value(newComment.getText()));
+
+	}
+
+	@Test
+	public void testUpdateOneComment() throws Exception {
+		long commentId = 1L;
+		CommentUpdateRequest request = new CommentUpdateRequest();
+		request.setText("Updated comment text");
+
+		Comment updatedComment = new Comment();
+		updatedComment.setId(commentId);
+		updatedComment.setText(request.getText());
+
+		when(commentService.createOneCommentById(eq(commentId), any(CommentUpdateRequest.class)))
+				.thenReturn(updatedComment);
+
+		mockMvc.perform(put("/comments/{commentId}", commentId).contentType(MediaType.APPLICATION_JSON)
+				.content(asJsonString(request))).andExpect(status().isOk()).andExpect(jsonPath("$.id").value(commentId))
+				.andExpect(jsonPath("$.text").value(request.getText()));
+	}
+
+	@Test
+	public void testDeleteOneComment() throws Exception {
+		long commentId = 1L;
+
+		doNothing().when(commentService).deleteCommentById(commentId);
+
+		mockMvc.perform(delete("/comments/{commentId}", commentId)).andExpect(status().isOk());
 
 	}
 
