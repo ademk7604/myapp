@@ -29,6 +29,7 @@ public class UserService {
 	public User getOneUserById(Long userId) {
 		return userRepository.findById(userId).orElse(null);
 	}
+	
 
 	public User updateOneUser(Long userId, User newUser) {
 		Optional<User> user = userRepository.findById(userId);
