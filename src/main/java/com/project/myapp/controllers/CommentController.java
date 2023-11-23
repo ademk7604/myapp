@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.project.myapp.entities.Comment;
 import com.project.myapp.requests.CommentCreateRequest;
 import com.project.myapp.requests.CommentUpdateRequest;
+import com.project.myapp.responses.CommentResponse;
 import com.project.myapp.services.CommentService;
 
 @RestController
@@ -29,14 +30,15 @@ public class CommentController {
 	}
 
 	@GetMapping
-	public List<Comment> getAllComments(@RequestParam Optional<Long> userId, @RequestParam Optional<Long> postId) {
+	public List<CommentResponse> getAllComments(@RequestParam Optional<Long> userId, 
+												@RequestParam Optional<Long> postId) {
 
 		return commentService.getAllCommentsWithParam(userId, postId);
 	}
 
 	@GetMapping("/{commentId}")
 	public Comment getOneComment(@PathVariable Long commentId) {
-		return commentService.getOneComment(commentId);
+		return commentService.getOneCommentById(commentId);
 	}
 
 	@PostMapping
@@ -46,7 +48,7 @@ public class CommentController {
 
 	@PutMapping("/{commentId}")
 	public Comment updateOneComment(@PathVariable Long commentId, @RequestBody CommentUpdateRequest request) {
-		return commentService.createOneCommentById(commentId, request);
+		return commentService.updateOneCommentById(commentId, request);
 	}
 
 	@DeleteMapping("/{commentId}")

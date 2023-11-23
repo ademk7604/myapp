@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.myapp.entities.User;
+import com.project.myapp.responses.UserResponse;
 import com.project.myapp.services.UserService;
 
 @RestController
@@ -25,8 +26,8 @@ public class UserController {
 	}
 
 	@GetMapping
-	public List<User> getAllUsers() {
-		return userService.getAllUsers();
+	public List<UserResponse> getAllUsers() {
+		return userService.getAllUsers().stream().map(u -> new UserResponse(u)).toList();
 
 	}
 

@@ -2,7 +2,9 @@ package com.project.myapp.services;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import com.project.myapp.entities.Post;
@@ -10,26 +12,36 @@ import com.project.myapp.entities.User;
 import com.project.myapp.repository.PostRepository;
 import com.project.myapp.requests.PostCreateRequest;
 import com.project.myapp.requests.PostUpdateRequest;
+import com.project.myapp.responses.LikeResponse;
+import com.project.myapp.responses.PostResponse;
 
 @Service
 public class PostService {
 
 	private PostRepository postRepository;
 	private UserService userService;
+	private LikeService likeService;
 
-	public PostService(final PostRepository postRepository, final UserService userService) {
+	public PostService(final PostRepository postRepository, final UserService userService,
+			@Lazy final LikeService likeService) {
 		this.postRepository = postRepository;
 		this.userService = userService;
+		this.likeService = likeService;
 
 	}
 
-	public List<Post> getAllPosts(Optional<Long> userId) {
+	public List<PostResponse> getAllPosts(Optional<Long> userId) {
+		List<Post> postList;
 		if (userId.isPresent()) {
-			return postRepository.findByUserId(userId.get());
-		}
-		return postRepository.findAll();
-		// getAllPosts burda userId ait butun post lar getir yoksa butun postlari
-		// istemis olduk
+			postList = postRepository.findByUserId(userId.get());
+		}else
+			postList = postRepository.findAll();
+		
+		return postList.stream().map(p -> {
+			List<LikeResponse> likes = likeService.getAllLikesWithParam(Optional.ofNullable(null),
+					Optional.of(p.getId()));
+			return new PostResponse(p, likes);
+		}).collect(Collectors.toList());
 	}
 
 	public Post getOnePostById(Long postId) {
