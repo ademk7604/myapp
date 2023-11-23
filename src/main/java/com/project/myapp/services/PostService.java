@@ -23,7 +23,8 @@ public class PostService {
 	private LikeService likeService;
 
 	public PostService(final PostRepository postRepository, final UserService userService,
-			@Lazy final LikeService likeService) {
+			@Lazy final LikeService likeService) //Circular Dependency hatasi serviceler birbirini cagiriyor
+	{
 		this.postRepository = postRepository;
 		this.userService = userService;
 		this.likeService = likeService;
