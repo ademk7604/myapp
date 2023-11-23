@@ -22,13 +22,16 @@ public class PostService {
 	private UserService userService;
 	private LikeService likeService;
 
-	public PostService(final PostRepository postRepository, final UserService userService,
-			@Lazy final LikeService likeService) //Circular Dependency hatasi serviceler birbirini cagiriyor
+	public PostService(final PostRepository postRepository, final UserService userService) 
 	{
 		this.postRepository = postRepository;
 		this.userService = userService;
-		this.likeService = likeService;
 
+	}
+	// Circular Dependency hatasi Post ve Like serviceler birbirini cagiriyor
+	// Alternative @Lazy final LikeService likeService oder in application.properties
+	public void setLikeService(LikeService likeService) {
+		this.likeService=likeService;
 	}
 
 	public List<PostResponse> getAllPosts(Optional<Long> userId) {

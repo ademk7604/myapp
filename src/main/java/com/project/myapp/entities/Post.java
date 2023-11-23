@@ -32,10 +32,9 @@ public class Post {
 	Long id;
 
 	// post objlerini cektigimde bana ilgili user lari getirme
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id", nullable = false)
 	@OnDelete(action = OnDeleteAction.CASCADE)
-	@JsonIgnore
 	User user;
 
 
