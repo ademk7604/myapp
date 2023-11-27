@@ -6,6 +6,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,9 +23,23 @@ import com.project.myapp.services.UserService;
 public class AuthController {
 	
 	private AuthenticationManager authenticationManager;
+	
 	private JwtTokenProvider jwtTokenProvider;
+	
 	private UserService userService;
 	
+	private PasswordEncoder passwordEncoder;
+	
+	
+	public AuthController(AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider,
+			UserService userService, PasswordEncoder passwordEncoder) {
+		this.authenticationManager = authenticationManager;
+		this.jwtTokenProvider = jwtTokenProvider;
+		this.userService = userService;
+		this.passwordEncoder = passwordEncoder;
+	}
+
+
 	@PostMapping("/login")
 	public String login(@RequestBody UserRequest loginRequest) {
 		UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(loginRequest.getUserName(), loginRequest.getPassword());
@@ -34,20 +49,18 @@ public class AuthController {
 		return "Bearer "+jtwToken;
 	}
 	
-	/*
+	
 	@PostMapping("/register")
 	public ResponseEntity<String> register(@RequestBody UserRequest registerRequest){
 		if(userService.getOneUserByUserName(registerRequest.getUserName()) != null) {
 			return new ResponseEntity<>("Username already in use.", HttpStatus.BAD_REQUEST);
-			
+		}
 			User user = new User();
 			user.setUserName(registerRequest.getUserName());
-			user.setPassword(registerRequest.getPassword());
+			user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
 			userService.saveOneUser(user);
 			return new ResponseEntity<>("User successfully registered.", HttpStatus.CREATED);
-		}
+		
 	}
-	*/
-	
 
 }
