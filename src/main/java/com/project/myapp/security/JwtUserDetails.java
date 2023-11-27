@@ -12,6 +12,7 @@ import com.project.myapp.entities.User;
 
 import lombok.Getter;
 import lombok.Setter;
+
 @Getter
 @Setter
 public class JwtUserDetails implements UserDetails{
