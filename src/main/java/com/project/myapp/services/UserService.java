@@ -12,6 +12,8 @@ import com.project.myapp.repository.UserRepository;
 public class UserService {
 
 	private UserRepository userRepository;
+	
+	
 
 	public UserService(final UserRepository userRepository) {
 		this.userRepository = userRepository;
@@ -51,6 +53,11 @@ public class UserService {
 	public User getOneUserByUserName(String userName) {
 		
 		return userRepository.findByUserName(userName);
+	}
+
+	public void getUserActivity(Long userId) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

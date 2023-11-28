@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.project.myapp.entities.User;
 import com.project.myapp.requests.UserRequest;
+import com.project.myapp.responses.AuthResponse;
 import com.project.myapp.security.JwtTokenProvider;
 import com.project.myapp.services.UserService;
 
@@ -41,19 +42,25 @@ public class AuthController {
 
 
 	@PostMapping("/login")
-	public String login(@RequestBody UserRequest loginRequest) {
+	public AuthResponse login(@RequestBody UserRequest loginRequest) {
 		UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(loginRequest.getUserName(), loginRequest.getPassword());
 		Authentication auth = authenticationManager.authenticate(authToken);
 		SecurityContextHolder.getContext().setAuthentication(auth);
-		String jtwToken = jwtTokenProvider.generateJwtToken(auth);
-		return "Bearer "+jtwToken;
+		String jwtToken = jwtTokenProvider.generateJwtToken(auth);
+		User user = userService.getOneUserByUserName(loginRequest.getUserName());
+		AuthResponse authResponse = new AuthResponse();
+		authResponse.setMessage("Bearer "+ jwtToken);
+		authResponse.setUserId(user.getId());
+		return authResponse;
 	}
 	
-	
+	/*
 	@PostMapping("/register")
-	public ResponseEntity<String> register(@RequestBody UserRequest registerRequest){
+	public ResponseEntity<AuthResponse> register(@RequestBody UserRequest registerRequest) {
+		AuthResponse authResponse = new AuthResponse();
 		if(userService.getOneUserByUserName(registerRequest.getUserName()) != null) {
-			return new ResponseEntity<>("Username already in use.", HttpStatus.BAD_REQUEST);
+			authResponse.setMessage("Username already in use.");
+			return new ResponseEntity<>(authResponse, HttpStatus.BAD_REQUEST);
 		}
 			User user = new User();
 			user.setUserName(registerRequest.getUserName());
@@ -62,5 +69,6 @@ public class AuthController {
 			return new ResponseEntity<>("User successfully registered.", HttpStatus.CREATED);
 		
 	}
+	*/
 
 }

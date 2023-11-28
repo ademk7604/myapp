@@ -1,6 +1,7 @@
 package com.project.myapp.entities;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -43,10 +44,10 @@ public class Post {
 	@Lob
 	@Column(columnDefinition = "text")
 	String text;
-	/*
+	
 	@Temporal(TemporalType.TIMESTAMP)
-	Date createDate;
-	*/
+	LocalDateTime createDate;
+	
 
 	/*
 	 * OnDeleteAction.CASCADE: Eğer bir kayıt siliniyorsa, bu kaynağa bağlı kayıtlar

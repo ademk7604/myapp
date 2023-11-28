@@ -1,5 +1,6 @@
 package com.project.myapp.services;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -56,6 +57,7 @@ public class CommentService {
 			commentToSave.setPost(post);
 			commentToSave.setUser(user);
 			commentToSave.setText(newComment.getText());
+			commentToSave.setCreateDate(LocalDateTime.now());
 			return commentRepository.save(commentToSave);
 
 		} else

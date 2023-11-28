@@ -1,10 +1,11 @@
 package com.project.myapp.services;
 
+import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import com.project.myapp.entities.Post;
@@ -61,6 +62,7 @@ public class PostService {
 		toSave.setText(newPostRequest.getText());
 		toSave.setTitle(newPostRequest.getTitle());
 		toSave.setUser(user);
+		toSave.setCreateDate(LocalDateTime.now());
 		return postRepository.save(toSave);
 
 	}

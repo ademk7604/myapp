@@ -1,6 +1,7 @@
 package com.project.myapp.entities;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -47,10 +48,10 @@ public class Comment {
 	@Column(columnDefinition = "text")
 	String text;
 	
-	/*
+	
 	@Temporal(TemporalType.TIMESTAMP)
-	Date createDate;
-	*/
+	LocalDateTime createDate;
+
 	
 	
 	/*
