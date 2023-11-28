@@ -1,23 +1,31 @@
 package com.project.myapp.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
 import com.project.myapp.entities.User;
+import com.project.myapp.repository.CommentRepository;
+import com.project.myapp.repository.LikeRepository;
+import com.project.myapp.repository.PostRepository;
 import com.project.myapp.repository.UserRepository;
 
 @Service
 public class UserService {
 
 	private UserRepository userRepository;
+	private LikeRepository likeRepository;
+	private CommentRepository commentRepository;
+	private PostRepository postRepository;
 	
-	
-
-	public UserService(final UserRepository userRepository) {
+	public UserService(UserRepository userRepository, LikeRepository likeRepository,
+			CommentRepository commentRepository, PostRepository postRepository) {
 		this.userRepository = userRepository;
-
+		this.likeRepository = likeRepository;
+		this.commentRepository = commentRepository;
+		this.postRepository = postRepository;
 	}
 
 	public List<User> getAllUsers() {
@@ -55,9 +63,16 @@ public class UserService {
 		return userRepository.findByUserName(userName);
 	}
 
-	public void getUserActivity(Long userId) {
-		// TODO Auto-generated method stub
-		
+	public List<Object> getUserActivity(Long userId) {
+		List<Long> postIds = postRepository.findTopByUserId(userId);
+		if(postIds.isEmpty())
+			return null;
+		List<Object> comments = commentRepository.findUserCommentsByPostId(postIds);
+		List<Object> likes = likeRepository.findUserLikesByPostId(postIds);
+		List<Object> result = new ArrayList<>();
+		result.addAll(comments);
+		result.addAll(likes);
+		return result;
 	}
 
 }

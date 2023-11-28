@@ -1,6 +1,5 @@
 package com.project.myapp.services;
 
-import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -51,6 +50,12 @@ public class PostService {
 
 	public Post getOnePostById(Long postId) {
 		return postRepository.findById(postId).orElse(null);
+	}
+	
+	public PostResponse getOnePostByIdWithLikes(Long postId) {
+		Post post = postRepository.findById(postId).orElse(null);
+		List<LikeResponse> likes = likeService.getAllLikesWithParam(Optional.ofNullable(null), Optional.of(postId));
+		return new PostResponse(post, likes); 
 	}
 
 	public Post createOnePost(PostCreateRequest newPostRequest) {
