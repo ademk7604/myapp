@@ -49,6 +49,8 @@ public class PostService {
 	}
 
 	public Post getOnePostById(Long postId) {
+		List<LikeResponse> likes = likeService.getAllLikesWithParam(Optional.ofNullable(null),
+				Optional.of(postId));
 		return postRepository.findById(postId).orElse(null);
 	}
 	

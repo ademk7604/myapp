@@ -54,7 +54,7 @@ public class AuthController {
 		return authResponse;
 	}
 	
-	/*
+	
 	@PostMapping("/register")
 	public ResponseEntity<AuthResponse> register(@RequestBody UserRequest registerRequest) {
 		AuthResponse authResponse = new AuthResponse();
@@ -66,9 +66,10 @@ public class AuthController {
 			user.setUserName(registerRequest.getUserName());
 			user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
 			userService.saveOneUser(user);
-			return new ResponseEntity<>("User successfully registered.", HttpStatus.CREATED);
+			authResponse.setMessage("User successfully registered.");
+			return new ResponseEntity<>(authResponse, HttpStatus.CREATED);
 		
 	}
-	*/
+
 
 }
