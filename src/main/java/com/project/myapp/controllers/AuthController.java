@@ -12,10 +12,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.myapp.entities.RefreshToken;
 import com.project.myapp.entities.User;
 import com.project.myapp.requests.UserRequest;
 import com.project.myapp.responses.AuthResponse;
 import com.project.myapp.security.JwtTokenProvider;
+import com.project.myapp.services.RefreshTokenService;
 import com.project.myapp.services.UserService;
 
 
@@ -31,13 +33,16 @@ public class AuthController {
 	
 	private PasswordEncoder passwordEncoder;
 	
+	private RefreshTokenService refreshTokenService;
+	
 	
 	public AuthController(AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider,
-			UserService userService, PasswordEncoder passwordEncoder) {
+			UserService userService, PasswordEncoder passwordEncoder, RefreshTokenService refreshTokenService) {
 		this.authenticationManager = authenticationManager;
 		this.jwtTokenProvider = jwtTokenProvider;
 		this.userService = userService;
 		this.passwordEncoder = passwordEncoder;
+		this.refreshTokenService=refreshTokenService;
 	}
 
 
@@ -49,7 +54,8 @@ public class AuthController {
 		String jwtToken = jwtTokenProvider.generateJwtToken(auth);
 		User user = userService.getOneUserByUserName(loginRequest.getUserName());
 		AuthResponse authResponse = new AuthResponse();
-		authResponse.setMessage("Bearer "+ jwtToken);
+		authResponse.setAccessToken("Bearer "+ jwtToken);
+		authResponse.setRefreshToken(refreshTokenService.createRefreshToken(user));
 		authResponse.setUserId(user.getId());
 		return authResponse;
 	}
