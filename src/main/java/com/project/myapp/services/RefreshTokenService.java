@@ -11,6 +11,8 @@ import com.project.myapp.entities.RefreshToken;
 import com.project.myapp.entities.User;
 import com.project.myapp.repository.RefreshTokenRepository;
 
+import antlr.Token;
+
 @Service
 public class RefreshTokenService {
 
@@ -35,7 +37,13 @@ public class RefreshTokenService {
 	
 	
 	public boolean isRefreshExpired(RefreshToken refreshToken) {
-		return false;
+		return refreshToken.getExpiryDate().before(new java.util.Date());
+	}
+
+	public RefreshToken getByUser(Long userId) {
+		return refreshTokenRepository.findByUserId(userId);
+	
+		
 	}
 	
 }
